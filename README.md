@@ -35,3 +35,4 @@ TODO
 * Custom template for each control
 * Callbacks for show/hide/next/prev/close
 * Unit testing
+* Add HTML example in README file

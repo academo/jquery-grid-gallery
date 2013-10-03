@@ -1,0 +1,7 @@
+{
+  "name": "jQuery Grid Gallery",
+  "dependencies": {
+    "jquery": "1.10.2",
+    "qunit": "~1.12.0"
+  }
+}

@@ -9,14 +9,14 @@ var mountFolder = function(connect, dir) {
 
 module.exports = function(grunt) {
 
-	require('matchdep').filterDev('grunt-*').forEach(grunt.loadNpmTasks);
+    require('matchdep').filterDev('grunt-*').forEach(grunt.loadNpmTasks);
 
-	grunt.initConfig({
+    grunt.initConfig({
 
-		// Import package manifest
-		pkg: grunt.file.readJSON("gridgallery.jquery.json"),
+        // Import package manifest
+        pkg: grunt.file.readJSON("gridgallery.jquery.json"),
 
-		watch: {
+        watch: {
             styles: {
                 files: ['src/{,*/}*.less'],
                 tasks: ['recess']
@@ -28,47 +28,44 @@ module.exports = function(grunt) {
                 files: [
                     'dist/*.html',
                     'dist/{,*/}*.css',
-                	'dist/{,*/}*.js',
+                    'dist/{,*/}*.js',
                 ]
             },
-            js : {
-            	files: ['src/*.js'],
-            	tasks: ['copy']
+            js: {
+                files: ['src/*.js'],
+                tasks: ['copy']
             }
         },
 
-		// Banner definitions
-		meta: {
-			banner: "/*\n" +
-				" *  <%= pkg.title || pkg.name %> - v<%= pkg.version %>\n" +
-				" *  <%= pkg.description %>\n" +
-				" *  <%= pkg.homepage %>\n" +
-				" *\n" +
-				" *  Made by <%= pkg.author.name %>\n" +
-				" *  Under <%= pkg.licenses[0].type %> License\n" +
-				" */\n"
-		},
+        qunit: {
+            files: ['test/**/*.html']
+        },
 
-		// Concat definitions
-		concat: {
-			dist: {
-				src: ["src/jquery.gridgallery.js"],
-				dest: "dist/jquery.gridgallery.js"
-			},
-			options: {
-				banner: "<%= meta.banner %>"
-			}
-		},
+        // Banner definitions
+        meta: {
+            banner: "/*\n" + " *  <%= pkg.title || pkg.name %> - v<%= pkg.version %>\n" + " *  <%= pkg.description %>\n" + " *  <%= pkg.homepage %>\n" + " *\n" + " *  Made by <%= pkg.author.name %>\n" + " *  Under <%= pkg.licenses[0].type %> License\n" + " */\n"
+        },
 
-		// Lint definitions
-		jshint: {
-			files: ["src/jquery.gridgallery.js"],
-			options: {
-				jshintrc: ".jshintrc"
-			}
-		},
+        // Concat definitions
+        concat: {
+            dist: {
+                src: ["src/jquery.gridgallery.js"],
+                dest: "dist/jquery.gridgallery.js"
+            },
+            options: {
+                banner: "<%= meta.banner %>"
+            }
+        },
 
-		recess: {
+        // Lint definitions
+        jshint: {
+            files: ["src/jquery.gridgallery.js"],
+            options: {
+                jshintrc: ".jshintrc"
+            }
+        },
+
+        recess: {
             dist: {
                 options: {
                     compile: true
@@ -79,17 +76,17 @@ module.exports = function(grunt) {
             }
         },
 
-		// Minify definitions
-		uglify: {
-			my_target: {
-				src: ["dist/jquery.gridgallery.js"],
-				dest: "dist/jquery.gridgallery.min.js"
-			},
-			options: {
-				banner: "<%= meta.banner %>"
-			}
-		},
-		connect: {
+        // Minify definitions
+        uglify: {
+            my_target: {
+                src: ["dist/jquery.gridgallery.js"],
+                dest: "dist/jquery.gridgallery.min.js"
+            },
+            options: {
+                banner: "<%= meta.banner %>"
+            }
+        },
+        connect: {
             options: {
                 port: 9000,
                 // change this to '0.0.0.0' to access the server from outside
@@ -112,12 +109,12 @@ module.exports = function(grunt) {
                 dest: 'dist/jquery.gridgallery.js',
             }
         }
-	});
+    });
 
-	grunt.registerTask("default", ["jshint", "concat", "uglify"]);
-	grunt.registerTask("travis", ["jshint"]);
+    grunt.registerTask("default", ["jshint", "concat", "uglify"]);
+    grunt.registerTask("travis", ["jshint"]);
 
-	grunt.registerTask('server', function(target) {
+    grunt.registerTask('server', function(target) {
         grunt.task.run([
             //'autoprefixer',
             'connect:livereload',
