@@ -1,12 +1,12 @@
-;
 (function($, window, document, undefined) {
 
-    // Create tshe defaults once
-    var pluginName = "gridExpander",
+    // Create the plugins defaults
+    var pluginName = "gridGallery",
         defaults = {
             template: '<i class="indicator"></i><a href="#" class="control close"></a><a href="#" class="control prev"></a><a href="#" class="control next"></a>'
         };
 
+    //Plugin instance
     function Plugin(element, options) {
         this.element = $(element);
         this.settings = $.extend({}, defaults, options);
@@ -16,11 +16,13 @@
     }
 
     Plugin.prototype = {
+    	//Init function when Plugin is initialized
         init: function(el) {
-            this.element.addClass("expand-grid");
+            this.element.addClass("grid-gallery");
             this.element.on("click", "li > a", this.expandContent.bind(this));
             this.element.on("click", "li > .content > a.control", this.managetControl.bind(this));
         },
+        //When an element is clicked
         expandContent: function(e) {
             //prevent any click link
             e.preventDefault();
@@ -29,6 +31,7 @@
             //set original height if not already
             this.toggleElement(li);
         },
+        //toggle element expanding status
         toggleElement: function(li) {
             li.data("original-height", li.data("original-height") || li.height())
 
@@ -40,12 +43,15 @@
             }
             li.toggleClass('expanded');
         },
+        //hide an element
         hideElement: function(li, effect) {
             li.animate({
                 height: li.data("original-height"),
             });
             $(".content", li).slideUp();
         },
+        //show an element and hide an old one
+        //TODO refactor
         showElement: function(li, old) {
             //hide old text
             //var changeLine = ;
@@ -90,6 +96,7 @@
                 }
             }
         },
+        //When an expanded element control is clicked
         managetControl: function(e){
             e.preventDefault();
             var a = $(e.currentTarget);
@@ -110,7 +117,9 @@
         }
     };
 
+    //add plugin to jQuery
     $.fn[pluginName] = function(options) {
+    	//for each element in selector instance plugin if not previous instance
         return this.each(function() {
             if (!$.data(this, "plugin_" + pluginName)) {
                 $.data(this, "plugin_" + pluginName, new Plugin(this, options));

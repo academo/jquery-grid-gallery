@@ -1,21 +1,26 @@
-.expand-grid {
+.container {
+  width: 70%;
+  margin: 0 auto;
+}
+
+.grid-gallery {
   position: relative;
   padding-left: 0;
   list-style: none;
 }
 
-.expand-grid li {
+.grid-gallery li {
   display: inline-block;
-  width: 24%;
+  margin: 20px;
   vertical-align: top;
 }
 
-.expand-grid li .content {
+.grid-gallery li .content {
   position: absolute;
   top: auto;
   left: 0;
   display: none;
   width: 100%;
   padding: 20px 20%;
-  background: #fff;
+  background: #ccc;
 }
