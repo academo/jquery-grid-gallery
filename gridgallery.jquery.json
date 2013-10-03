@@ -1,0 +1,29 @@
+{
+	"name": "jquery-grid-gallery",
+	"title": "jQuery GridGallery",
+	"description": "An expandible jquery grid gallery",
+	"keywords": [
+		"jquery",
+		"grid",
+		"gallery"
+	],
+	"version": "0.1",
+	"author": {
+		"name": "Esteban Beltran",
+		"email": "sergies@gmail.com",
+		"url": "https://github.com/academo"
+	},
+	"licenses": [
+		{
+			"type": "MIT",
+			"url": "http://zenorocha.mit-license.org/"
+		}
+	],
+	"bugs": "https://github.com/academo/jquery-grid-gallery/issues",
+	"homepage": "https://github.com/academo/jquery-grid-gallery",
+	"docs": "https://github.com/academo/jquery-grid-gallery#readme",
+	"download": "https://github.com/academo/jquery-grid-gallery/archive/master.zip",
+	"dependencies": {
+		"jquery": ">=1.9"
+	}
+}

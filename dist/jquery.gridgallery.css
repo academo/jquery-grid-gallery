@@ -1,0 +1,21 @@
+.expand-grid {
+  position: relative;
+  padding-left: 0;
+  list-style: none;
+}
+
+.expand-grid li {
+  display: inline-block;
+  width: 24%;
+  vertical-align: top;
+}
+
+.expand-grid li .content {
+  position: absolute;
+  top: auto;
+  left: 0;
+  display: none;
+  width: 100%;
+  padding: 20px 20%;
+  background: #fff;
+}
