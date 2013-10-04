@@ -31,6 +31,10 @@ module.exports = function(grunt) {
                     'dist/{,*/}*.js',
                 ]
             },
+            base64: {
+                files: ['src/{,*/}*.css'],
+                tasks: ['imageEmbed']
+            },
             js: {
                 files: ['src/*.js'],
                 tasks: ['copy']
@@ -46,6 +50,15 @@ module.exports = function(grunt) {
             banner: "/*\n" + " *  <%= pkg.title || pkg.name %> - v<%= pkg.version %>\n" + " *  <%= pkg.description %>\n" + " *  <%= pkg.homepage %>\n" + " *\n" + " *  Made by <%= pkg.author.name %>\n" + " *  Under <%= pkg.licenses[0].type %> License\n" + " */\n"
         },
 
+        imageEmbed: {
+            dist: {
+                src: ["src/jquery.gridgallery.css"],
+                dest: "dist/jquery.gridgallery.css",
+                options: {
+                    deleteAfterEncoding: false
+                }
+            }
+        },
         // Concat definitions
         concat: {
             dist: {
@@ -71,7 +84,7 @@ module.exports = function(grunt) {
                     compile: true
                 },
                 files: {
-                    'dist/jquery.gridgallery.css': ['src/jquery.gridgallery.less']
+                    'src/jquery.gridgallery.css': ['src/jquery.gridgallery.less']
                 }
             }
         },

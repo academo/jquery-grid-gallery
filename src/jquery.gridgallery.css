@@ -1,0 +1,69 @@
+.container {
+  width: 70%;
+  margin: 0 auto;
+}
+
+.grid-gallery {
+  position: relative;
+  padding-left: 0;
+  list-style: none;
+}
+
+.grid-gallery li {
+  display: inline-block;
+  margin: 20px;
+  vertical-align: top;
+}
+
+.grid-gallery li .content {
+  position: absolute;
+  top: auto;
+  left: 0;
+  display: none;
+  width: 100%;
+  padding: 40px 50px;
+  background: #ccc;
+  -webkit-box-sizing: border-box;
+     -moz-box-sizing: border-box;
+          box-sizing: border-box;
+}
+
+.grid-gallery li .content a.next {
+  position: absolute;
+  top: 40%;
+  right: 0;
+  display: block;
+  width: 48px;
+  height: 48px;
+  background: url(../images/next.png) no-repeat;
+}
+
+.grid-gallery li .content a.prev {
+  position: absolute;
+  top: 40%;
+  left: 0;
+  display: block;
+  width: 48px;
+  height: 48px;
+  background: url(../images/prev.png) no-repeat;
+}
+
+.grid-gallery li .content a.close {
+  position: absolute;
+  top: 0;
+  right: 0;
+  display: block;
+  width: 48px;
+  height: 48px;
+  background: url(../images/close.png) no-repeat;
+}
+
+.grid-gallery li .content .indicator {
+  position: absolute;
+  top: -15px;
+  width: 0;
+  height: 0;
+  border-right: 15px solid transparent;
+  border-bottom: 15px solid white;
+  border-left: 15px solid transparent;
+}
