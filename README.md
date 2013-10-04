@@ -18,6 +18,25 @@ Usage
 <link rel="stylesheet" href="jquery.gridgallery.css">
 ```
 
+* Add the base list html (not the .content div will be expanded)
+
+```
+<ul id="grid-gallery">
+    <li>
+        <a href="#">Link</a>
+        <div class="content">Lorem ipsum dolor sit amet, consectetur adipisicing elit. Ipsum, blanditiis.</div>
+    </li>
+    <li>
+        <a href="#">Link</a>
+        <div class="content">Recusandae, perspiciatis repellat asperiores odit cumque earum at fugiat reprehenderit.</div>
+    </li>
+    <li>
+        <a href="#">Link</a>
+        <div class="content">Quos, eius sapiente quod maiores ducimus dicta praesentium molestias quasi!</div>
+    </li>
+</ul>
+```
+
 * Call it in your document ready.
 
 ```
@@ -28,11 +47,14 @@ Usage
 </script>
 ```
 
+DEMO
+----
+Check the [online working example](http://run.plnkr.co/jJqegTjWQ6m8rBF7/)
+
 TODO
 ----
 
 * Refactor some long functions
-* Custom template for each control
 * Callbacks for show/hide/next/prev/close
 * Unit testing
-* Add HTML example in README file
+* Fix indicator position
