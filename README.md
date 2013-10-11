@@ -49,7 +49,7 @@ Usage
 
 DEMO
 ----
-Check the [online working example](http://run.plnkr.co/jJqegTjWQ6m8rBF7/)
+Check the [online working example](http://plnkr.co/rjBkwF29GdvQCE4NNRL3)
 
 TODO
 ----
