@@ -11,7 +11,13 @@
             nextTpl: '<a href="#"></a>',
             prevTpl: '<a href="#"</a>',
             closeTpl: '<a href="#"></a>',
-            indicatorTpl: '<i></i>'
+            indicatorTpl: '<i></i>',
+            onShowElement: function() {},
+            onCloseElement: function() {},
+            onShow: function() {},
+            onClose: function() {},
+            onNext: function() {},
+            onPrev: function() {}
         };
 
     //Plugin instance
@@ -33,7 +39,7 @@
             this.element.on("click", "li > a", this.expandContent.bind(this));
             //handle controls
             if (this.settings.showControllers) {
-                this.element.on("click", "li > .content > a.control", this.managetControl.bind(this));
+                this.element.on("click", "li > .content > a.control", this.manageControl.bind(this));
             }
         },
         //When an element is clicked
@@ -60,10 +66,10 @@
             li.toggleClass('expanded');
         },
         //hide an element with animation
-        hideElement: function(li, effect) {
+        hideElement: function(li) {
             li.animate({
                 height: li.data("original-height"),
-            });
+            }, this.settings.on300CloseElement.bind(this, li));
             $(".content", li).slideUp();
         },
         //show an element and hide an old one
@@ -80,23 +86,29 @@
                 this.initializeControllers(content, li);
             }
             var newHeight = li.outerHeight() + $(".content", li).outerHeight();
-
-            if (old.length == 0) {
+            //if old doesn't exist
+            if (old.length == 0 || old.offset().top != li.offset().top) {
+                //old element is in other row or not old element
+                //need to hide old and animate height
+                if (old.length == 0) {
+                    this.settings.onShow.call(this);
+                } else {
+                    if (old.offset().top != li.offset().top) {
+                        this.hideElement(old);
+                    }
+                }
                 li.animate({
                     height: newHeight,
                 });
                 content.slideToggle();
             } else {
-                if (old.length == 0 || old.offset().top != li.offset().top) {
-                    this.hideElement(old);
-                    this.showElement(li, $("li.expanded", this.element));
-                } else {
-                    $(".content", old).fadeOut(300);
-                    li.height(newHeight);
-                    old.height(old.data("original-height"));
-                    content.fadeIn(300);
-                }
+                //old element is in same row not need to animate height
+                $(".content", old).fadeOut(300);
+                li.height(newHeight);
+                this.hideElement(old);
+                content.fadeIn(300);
             }
+            this.settings.onShowElement.call(this, li);
         },
         initializeControllers: function(content, li) {
             $(this.settings.nextTpl).addClass('control next').appendTo(content);
@@ -109,22 +121,29 @@
             content.addClass('expanded-controls');
         },
         //When an expanded element control is clicked
-        managetControl: function(e) {
+        manageControl: function(e) {
             e.preventDefault();
-            console.log("aca");
+            //console.log("aca");
             var a = $(e.currentTarget);
             var li = a.closest('li.expanded');
             if (a.hasClass('close')) {
                 this.toggleElement(li);
+                this.settings.onClose.call(this);
                 return;
             }
             if (a.hasClass('prev')) {
                 var newElement = li.prev('li');
+                this.triggerControl(li, newElement, this.settings.onPrev);
             }
             if (a.hasClass('next')) {
                 var newElement = li.next('li');
+                this.triggerControl(li, newElement, this.settings.onNext);
             }
+            
+        },
+        triggerControl: function(li, newElement, callback){
             if (newElement.length > 0) {
+                callback.call(this, li, newElement);
                 this.toggleElement(newElement);
             }
         }
@@ -140,7 +159,7 @@
         });
     };
 
-})(jQuery, window, document);
+})(jQuery);
 
 //if browser doesn't support bind add it.
 if (!Function.prototype.bind) {
