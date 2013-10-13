@@ -40,7 +40,7 @@
             this.element.on("click", "li > a", $.proxy(this.expandContent, this));
             //handle controls
             if (this.settings.showControllers) {
-                this.element.on("click", "li > .content > a.control", $.proxy(this.manageControl, this));
+                this.element.on("click", "li > .content > .control", $.proxy(this.manageControl, this));
             }
         },
         //When an element is clicked
@@ -114,7 +114,7 @@
                 $(".content", old).fadeOut(300);
                 li.height(newHeight);
                 this.hideElement(old);
-                return content.fadeIn(300).promise().then($.proxy(this.settings.onShowElement,this, li));
+                return content.fadeIn(300).promise().then($.proxy(this.settings.onShowElement,this, li, old));
             }
         },
         initializeControllers: function(content, li) {
@@ -141,11 +141,11 @@
             }
             if (a.hasClass('prev')) {
                 newElement = li.prev('li');
-                callback = $.proxy(this.settings.onPrev, this, li);
+                callback = $.proxy(this.settings.onPrev, this, newElement, li);
             }
             if (a.hasClass('next')) {
                 newElement = li.next('li');
-                callback = $.proxy(this.settings.onNext, this, li);
+                callback = $.proxy(this.settings.onNext, this, newElement, li);
             }
 
             if (newElement.length > 0) {

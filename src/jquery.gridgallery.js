@@ -141,11 +141,11 @@
             }
             if (a.hasClass('prev')) {
                 newElement = li.prev('li');
-                callback = $.proxy(this.settings.onPrev, this, li);
+                callback = $.proxy(this.settings.onPrev, this, newElement, li);
             }
             if (a.hasClass('next')) {
                 newElement = li.next('li');
-                callback = $.proxy(this.settings.onNext, this, li);
+                callback = $.proxy(this.settings.onNext, this, newElement, li);
             }
 
             if (newElement.length > 0) {
