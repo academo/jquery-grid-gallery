@@ -28,6 +28,7 @@
         this._defaults = defaults;
         this._name = pluginName;
         this.init(element, options);
+        this.trigger = [];
     }
 
     //plugin methods
@@ -36,10 +37,10 @@
         init: function(el) {
             this.element.addClass("grid-gallery");
             //handle expand or collapse element
-            this.element.on("click", "li > a", this.expandContent.bind(this));
+            this.element.on("click", "li > a", $.proxy(this.expandContent, this));
             //handle controls
             if (this.settings.showControllers) {
-                this.element.on("click", "li > .content > a.control", this.manageControl.bind(this));
+                this.element.on("click", "li > .content > a.control", $.proxy(this.manageControl, this));
             }
         },
         //When an element is clicked
@@ -52,63 +53,69 @@
             this.toggleElement(li);
         },
         //toggle element expanding status
-        toggleElement: function(li) {
+        toggleElement: function(li, callback) {
             //save original-height
             li.data("original-height", li.data("original-height") || li.height())
 
             //check if expanded to hide or show
             if (li.hasClass("expanded")) {
-                this.hideElement(li);
+                return this.hideElement(li).then($.proxy(this.settings.onClose, this, li));
             } else {
                 //this.hideElement(, false);
-                this.showElement(li, $("li.expanded", this.element).removeClass("expanded"));
+                return this.showElement(li, $("li.expanded", this.element).removeClass("expanded"));
             }
-            li.toggleClass('expanded');
         },
         //hide an element with animation
         hideElement: function(li) {
-            li.animate({
+            li.removeClass("expanded");
+            return $.when(li.animate({
                 height: li.data("original-height"),
-            }, this.settings.on300CloseElement.bind(this, li));
-            $(".content", li).slideUp();
+            }), $(".content", li).slideUp()).then($.proxy(this.settings.onCloseElement, this, li));
         },
         //show an element and hide an old one
         //TODO refactor
         showElement: function(li, old) {
+            var self = this;
+            //cach elements
             var content = $(".content", li);
             var offset = $("li:first", this.element).offset();
 
+            li.addClass("expanded");
+            //set new content width
             content.css({
                 "width": li.parent().width()
             });
-
+            //initialize controllers
             if (this.settings.showControllers && !content.hasClass('expanded-controls')) {
                 this.initializeControllers(content, li);
             }
+            //calculate new height and show element hide old
             var newHeight = li.outerHeight() + $(".content", li).outerHeight();
-            //if old doesn't exist
+            //if old doesn't exist or the row had changed
             if (old.length == 0 || old.offset().top != li.offset().top) {
-                //old element is in other row or not old element
-                //need to hide old and animate height
-                if (old.length == 0) {
-                    this.settings.onShow.call(this);
-                } else {
-                    if (old.offset().top != li.offset().top) {
-                        this.hideElement(old);
-                    }
+                //hide old element if exist
+                if (old.length > 0 && old.offset().top != li.offset().top) {
+                    this.hideElement(old);
                 }
-                li.animate({
-                    height: newHeight,
-                });
-                content.slideToggle();
+                //wait to finish all animations to callback
+                return $.when(
+                    li.animate({
+                        height: newHeight,
+                    }),
+                    content.slideToggle()
+                ).then($.proxy(function() {
+                    if (old.length == 0) {
+                        this.settings.onShow.call(this, li);
+                        this.settings.onShowElement.call(this, li);
+                    }
+                }, this, old));
             } else {
                 //old element is in same row not need to animate height
                 $(".content", old).fadeOut(300);
                 li.height(newHeight);
                 this.hideElement(old);
-                content.fadeIn(300);
+                return content.fadeIn(300).promise().then($.proxy(this.settings.onShowElement,this, li));
             }
-            this.settings.onShowElement.call(this, li);
         },
         initializeControllers: function(content, li) {
             $(this.settings.nextTpl).addClass('control next').appendTo(content);
@@ -124,28 +131,28 @@
         manageControl: function(e) {
             e.preventDefault();
             //console.log("aca");
+            var newElement, callback;
             var a = $(e.currentTarget);
             var li = a.closest('li.expanded');
+
             if (a.hasClass('close')) {
-                this.toggleElement(li);
-                this.settings.onClose.call(this);
+                this.toggleElement(li).then(this.settings.onClose);
                 return;
             }
             if (a.hasClass('prev')) {
-                var newElement = li.prev('li');
-                this.triggerControl(li, newElement, this.settings.onPrev);
+                newElement = li.prev('li');
+                callback = $.proxy(this.settings.onPrev, this, li);
             }
             if (a.hasClass('next')) {
-                var newElement = li.next('li');
-                this.triggerControl(li, newElement, this.settings.onNext);
+                newElement = li.next('li');
+                callback = $.proxy(this.settings.onNext, this, li);
             }
-            
-        },
-        triggerControl: function(li, newElement, callback){
+
             if (newElement.length > 0) {
-                callback.call(this, li, newElement);
-                this.toggleElement(newElement);
+                //toggle element returns a promise of when then showEffect is done
+                this.toggleElement(newElement).then(callback);
             }
+
         }
     };
 
@@ -160,25 +167,3 @@
     };
 
 })(jQuery);
-
-//if browser doesn't support bind add it.
-if (!Function.prototype.bind) {
-    Function.prototype.bind = function(oThis) {
-        if (typeof this !== "function") {
-            throw new TypeError("Function.prototype.bind - what is trying to be bound is not callable");
-        }
-
-        var aArgs = Array.prototype.slice.call(arguments, 1),
-            fToBind = this,
-            fNOP = function() {},
-            fBound = function() {
-                return fToBind.apply(this instanceof fNOP && oThis ? this : oThis,
-                    aArgs.concat(Array.prototype.slice.call(arguments)));
-            };
-
-        fNOP.prototype = this.prototype;
-        fBound.prototype = new fNOP();
-
-        return fBound;
-    };
-}

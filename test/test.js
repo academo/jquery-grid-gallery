@@ -1,8 +1,7 @@
 var chai = require("chai"),
     jsdom = require("jsdom"),
     jQuery = require("jquery"),
-    fs = require("fs"),
-    sinon = require("sinon");
+    fs = require("fs");
 
 var assert = chai.assert
 
@@ -10,7 +9,7 @@ var fixture = fs.readFileSync("test/fixture.html", "utf-8");
 var window = jsdom.jsdom(fixture).createWindow();
 var document = window.document;
 var $ = global.jQuery = jQuery.create(window);
-require("../dist/jquery.gridgallery");
+require("../src/jquery.gridgallery");
 
 
 //Plugin is chainable
@@ -75,74 +74,86 @@ describe('jQuery Grid Gallery Callbacks', function() {
         $(".fixture").clone().attr("id", "grid-gallery").appendTo("body");
     });
     it('Expand show callback', function(done) {
-        var showCallback = sinon.spy();
 
         $("#grid-gallery").gridGallery({
-            onShow: showCallback
-        });
-        $("#grid-gallery > li:first > a:first").trigger("click");
-        setTimeout(function() {
-            assert.ok(showCallback.calledOnce, "on Show Callback");
-            done();
-        }, 500);
-    });
-    it('Expand Element show callback', function(done) {
-        var showCallback = sinon.spy();
-
-        $("#grid-gallery").gridGallery({
-            onShowElement: showCallback
-        });
-        $("#grid-gallery > li:first > a:first").trigger("click");
-        setTimeout(function() {
-            assert.ok(showCallback.calledOnce, "on Show Element Callback");
-            $("#grid-gallery > li:first a.next").trigger("click");
-            setTimeout(function() {
-                assert.equal(showCallback.callCount, 2, "on Show Next Element Callback");
-                $("#grid-gallery > li:nth-child(2) a.prev").trigger("click");
-                setTimeout(function() {
-                    assert.equal(showCallback.callCount, 3, "on Show Previous Element Callback");
-                    done();
-                }, 500);
-            }, 500);
-        }, 500);
-    });
-    it('Close Element show callback', function(done) {
-        var closeCallback = sinon.spy();
-
-        $("#grid-gallery").gridGallery({
-            onCloseElement: closeCallback
-        });
-        $("#grid-gallery > li:first > a:first").trigger("click");
-        setTimeout(function() {
-            $("#grid-gallery > li:first a.next").trigger("click");
-            setTimeout(function() {
-                assert.equal(closeCallback.callCount, 1, "on Close Current Element Callback 1");
-                $("#grid-gallery > li:nth-child(2) a.prev").trigger("click");
-                setTimeout(function() {
-                    assert.equal(closeCallback.callCount, 2, "on Close Current Element Callback 2");
-                    $("#grid-gallery > li:first a.close").trigger("click");
-                    setTimeout(function() {
-                        assert.equal(closeCallback.callCount, 3, "on Close Current Element Callback 3");
-                        done();
-                    }, 300);
-                }, 300);
-            }, 300);
-        }, 300);
-    });
-
-    it('Close Element show callback', function(done) {
-        var closeCallback = sinon.spy();
-
-        $("#grid-gallery").gridGallery({
-            onClose: closeCallback
-        });
-        $("#grid-gallery > li:first > a:first").trigger("click");
-        setTimeout(function() {
-            $("#grid-gallery > li:first a.close").trigger("click");
-            setTimeout(function() {
-                assert.equal(closeCallback.callCount, 1, "on Close Element Callback");
+            onShow: function() {
+                assert.ok(true, "on Show Callback");
                 done();
-            }, 300);
-        }, 300);
+            }
+        });
+        $("#grid-gallery > li:first > a:first").trigger("click");
+    });
+
+    it('Close Element show callback', function(done) {
+        $("#grid-gallery").gridGallery({
+            onClose: function() {
+                assert.ok(true, "on close Callback");
+                done();
+            },
+            onShow: function() {
+                $("#grid-gallery > li:first > a:first").trigger("click");
+            }
+        });
+        $("#grid-gallery > li:first > a:first").trigger("click");
+    });
+
+    it('Next Element show callback', function(done) {
+        $("#grid-gallery").gridGallery({
+            onNext: function() {
+                assert.ok(true, "on next Callback");
+                done();
+            },
+            onShow: function() {
+                $("#grid-gallery > li:first a.next").trigger("click");
+            }
+        });
+        $("#grid-gallery > li:first > a:first").trigger("click");
+    });
+
+    it('Prev Element show callback', function(done) {
+        $("#grid-gallery").gridGallery({
+            onPrev: function() {
+                assert.ok(true, "on prev Callback");
+                done();
+            },
+            onShow: function() {
+                $("#grid-gallery > li:nth-child(2) a.prev").trigger("click");
+            }
+        });
+        $("#grid-gallery > li:nth-child(2) > a:first").trigger("click");
+    });
+
+    it('Show Element callback', function(done) {
+        var count = 3;
+        $("#grid-gallery").gridGallery({
+            onShowElement: function() {
+                if (count == 0) {
+                    done();
+                } else {
+                    count--;
+                    assert.ok(true, "on showElement Callback");
+                    $("#grid-gallery > li.expanded a.next").trigger("click");
+                }
+            }
+        });
+        $("#grid-gallery > li:first > a:first").trigger("click");
+    });
+    it('Close Element callback', function(done) {
+        var count = 1;
+        $("#grid-gallery").gridGallery({
+            onCloseElement: function() {
+                if (count == 0) {
+                    done();
+                } else {
+                    count--;
+                    assert.ok(true, "on showElement Callback");
+                    $("#grid-gallery > li.expanded a.next").trigger("click");
+                }
+            },
+            onShow: function() {
+                $("#grid-gallery > li.expanded a.next").trigger("click");
+            }
+        });
+        $("#grid-gallery > li:first > a:first").trigger("click");
     });
 });
