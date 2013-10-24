@@ -5,7 +5,7 @@ jQuery Grid Gallery is a jQuery plugin which convert a simple list into an expan
 
 DEMO
 ----
-Check the [online working example](http://plnkr.co/rjBkwF29GdvQCE4NNRL3)
+Check the [online working example](http://plnkr.co/edit/rjBkwF29GdvQCE4NNRL3?p=preview)
 
 Usage
 -----
