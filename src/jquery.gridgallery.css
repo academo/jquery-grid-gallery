@@ -9,10 +9,30 @@
   list-style: none;
 }
 
+.grid-gallery li.expanded a .indicator {
+  position: absolute;
+  bottom: 0;
+  left: 40%;
+  display: block;
+  width: 0;
+  height: 0;
+  border-right: 15px solid transparent;
+  border-bottom: 15px solid white;
+  border-left: 15px solid transparent;
+}
+
 .grid-gallery li {
   display: inline-block;
   margin: 20px;
   vertical-align: top;
+}
+
+.grid-gallery li a {
+  position: relative;
+}
+
+.grid-gallery li a .indicator {
+  display: none;
 }
 
 .grid-gallery li .content {
@@ -56,14 +76,4 @@
   width: 48px;
   height: 48px;
   background: url(../images/close.png) no-repeat;
-}
-
-.grid-gallery li .content .indicator {
-  position: absolute;
-  top: -15px;
-  width: 0;
-  height: 0;
-  border-right: 15px solid transparent;
-  border-bottom: 15px solid white;
-  border-left: 15px solid transparent;
 }

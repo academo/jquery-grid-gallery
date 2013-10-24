@@ -121,9 +121,9 @@
             $(this.settings.nextTpl).addClass('control next').appendTo(content);
             $(this.settings.prevTpl).addClass('control prev').appendTo(content);
             $(this.settings.closeTpl).addClass('control close').appendTo(content);
-            $(this.settings.indicatorTpl).addClass('indicator').appendTo(content);
+            $(this.settings.indicatorTpl).addClass('indicator').appendTo($("a:first", li));
             $(".indicator", content).css({
-                "left": (li.offset().left + li.outerHeight() / 2) + "px"
+                "left": ((li.offset().left + li.outerWidth(true) / 2) - li.parent().offset().left) + "px"
             });
             content.addClass('expanded-controls');
         },

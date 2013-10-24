@@ -95,5 +95,4 @@ Currently working in adding more options
 TODO
 ----
 
-* Fix indicator position
 * Expand documentation

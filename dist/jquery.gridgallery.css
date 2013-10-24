@@ -9,10 +9,30 @@
   list-style: none;
 }
 
+.grid-gallery li.expanded a .indicator {
+  position: absolute;
+  bottom: 0;
+  left: 40%;
+  display: block;
+  width: 0;
+  height: 0;
+  border-right: 15px solid transparent;
+  border-bottom: 15px solid white;
+  border-left: 15px solid transparent;
+}
+
 .grid-gallery li {
   display: inline-block;
   margin: 20px;
   vertical-align: top;
+}
+
+.grid-gallery li a {
+  position: relative;
+}
+
+.grid-gallery li a .indicator {
+  display: none;
 }
 
 .grid-gallery li .content {
@@ -56,14 +76,4 @@
   width: 48px;
   height: 48px;
   background: url(data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAADAAAAAwCAYAAABXAvmHAAAD2ElEQVR4Xu2aeU4iQRSHG8R9wd3EqKBxX0LjCeoIHsE+wtzEG9hHcG7ACYSK+w4uf7iL++68N4G8kaKhCx7pmMwvqRSRpn/f1+kV9H19fRk/OX7jhyeQLfD5fI4Fs7OzizDNw0jAmFteXk6xUlBPCKYlGCYMG3osp4LsnoO7UEGBaDSahc/mBoaIx+OShZp6IjDFYLQaFBt6rJIFTNP8Bp8rkUgkOCSwh+DV2NBjaQtEIhEFPp+EhJRETT0E7xwbaizXAjMzMwp8IYmVlRU9CepxAU8S0GMVFZienlbg3Uisrq7qSGCPBjxJQI/lKDA1NaXA60isra25kcAegtfPAvT8UgQU+BIl1tfXC0pMTk4SfOmZA4nf364DIALwZQWBYhMTE2JjYyOvBLwXgR6CLz0LMBSBBEwmh8T4+LjY3Nz8JgF/44LHJHHKFZiDKYEFHBJjY2Nia2vrrwS85oRHRmRVD+LR0VEq4glCY4TBkxvgFNvb2zLLHfi3Dd8YGRkRPBIEzg2f52aOsrOzI4eHh1kkuOGBjeBJQM3u7q4cGhrCreexBJ2e9/b2CF4VULO/vy8HBwdJwkP4g4MDgi8uQMEPhsNhkvAAPplMEryuAAZXEAqFNI4Jvn0+lUoRvL4ABVc0MDBAEl7B6wtQDg8PZX9/P0lUEB67sJNJgHJ0dCT7+vpQIlEJeoTHDr2Hes0cHx/L3t7eGF2k2BI7OTkheH4BigffJfEJ9PT0RD4/P4XBH4HrPj09lRUT6O7uztzsVSwx6BBnZ2eSXaCrq4v5TtX5Vhy6xPn5uWQT6Ozs1IDnkYBOcXFxIcsW6Ojo0IDnlYBucXl5KUsWaG9v14TnlwAGcXV1JbUF2traFHivJIBFXF9fS9cCwWAQT5UKvJcSwCTS6bQsKtDS0sK05fklgE3c3t5KR4Hm5mYPHur1JIBR3N3dSUWgqakpRPA8DyP39/cys276No5BAljDMKdzvxda4oR/eHiQ2VYUaWxsFJwSMKK5AiYX/OPjo3KwoVBDQwOXhKnsQnDWsWGaL/dh5OnpSTq1olh9fT3HQ5GtCDw/P1u1tbUGSvDDU1Cwrq6uHAn75eXFUgQw+EZNTQ1JaMDDBpBuCXBZ2FilSNivr69WwesALlBdXU0SLuBBXBqawc/AxtKRsN/e3ixXV2JcMBAANxc/8sGyGvDKxpLQ4+bAtt/f3y2teyH8QFVVFUnkgf/4+NCHV3sk9BSSsKEnH7yrH7rx74skQbsNnLWkwRi/35/vLsAGPqcfuukFjiJBCTSNA3zQ4A5trBB2ZLqg0ynE/f+/VbzOH+HmTvSnrH1/AAAAAElFTkSuQmCC) no-repeat;
-}
-
-.grid-gallery li .content .indicator {
-  position: absolute;
-  top: -15px;
-  width: 0;
-  height: 0;
-  border-right: 15px solid transparent;
-  border-bottom: 15px solid white;
-  border-left: 15px solid transparent;
 }

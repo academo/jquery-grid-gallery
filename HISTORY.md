@@ -1,5 +1,8 @@
 # History
 
+* v0.2 Oct 24, 2013
+    * Fixed Indicator Position
+
 * v0.2 Oct 13, 2013
     * Updated documentation   
 
