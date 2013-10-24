@@ -3,6 +3,10 @@ jQuery Grid Gallery
 
 jQuery Grid Gallery is a jQuery plugin which convert a simple list into an expandible grid with inner content and next/prev/close controls.
 
+DEMO
+----
+Check the [online working example](http://plnkr.co/rjBkwF29GdvQCE4NNRL3)
+
 Usage
 -----
 * Include jQuery
@@ -55,10 +59,6 @@ Usage
     });
 </script>
 ```
-
-DEMO
-----
-Check the [online working example](http://plnkr.co/rjBkwF29GdvQCE4NNRL3)
 
 OPTIONS
 -----
